@@ -12,4 +12,4 @@ Install the mod via [Thunderstore](https://thunderstore.io/c/bomb-rush-cyberfunk
 
 2. Start Bomb Rush Cyberfunk once so that BepInEx can create its required configuration files.
 
-3. Download `BoostColors.dll` from the [Releases](https://github.com/TRPG0/BRC-BoostColors/releases) page put it into `BepInEx\plugins`.
+3. Download `BoostColors.dll` from the [Releases](https://github.com/TRPG0/BRC-BoostColors/releases) page and put it into `BepInEx\plugins`.
