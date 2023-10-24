@@ -14,7 +14,7 @@ namespace BoostColors
     {
         public const string PluginGUID = "trpg.brc.boostcolors";
         public const string PluginName = "BoostColors";
-        public const string PluginVersion = "1.0.1";
+        public const string PluginVersion = "1.0.2";
 
         public static Core Instance;
         public static new ManualLogSource Logger = BepInEx.Logging.Logger.CreateLogSource("BoostColors");

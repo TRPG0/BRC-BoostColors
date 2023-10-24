@@ -8,6 +8,7 @@ namespace BoostColors.Patches
     {
         public static void Postfix(Player __instance, Characters setChar, int setOutfit = 0)
         {
+            if (Reptile.Core.Instance.BaseModule.IsLoading) return;
             if (!Traverse.Create(__instance).Field<bool>("isAI").Value)
             {
                 Core.Instance.FindVFX();
