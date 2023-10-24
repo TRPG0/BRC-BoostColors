@@ -14,7 +14,7 @@ namespace BoostColors
     {
         public const string PluginGUID = "trpg.brc.boostcolors";
         public const string PluginName = "BoostColors";
-        public const string PluginVersion = "1.0.0";
+        public const string PluginVersion = "1.0.1";
 
         public static Core Instance;
         public static new ManualLogSource Logger = BepInEx.Logging.Logger.CreateLogSource("BoostColors");
@@ -39,7 +39,7 @@ namespace BoostColors
 
             Harmony Harmony = new Harmony("BoostColors");
             Harmony.PatchAll(typeof(BaseModule_HandleStageFullyLoaded_Patch));
-            Harmony.PatchAll(typeof(CharacterSelect_SetPlayerToCharacter_Patch));
+            Harmony.PatchAll(typeof(Player_SetCharacter_Patch));
             Harmony.PatchAll(typeof(Core_OnApplicationFocus_Patch));
 
             configPrimaryColor = Config.Bind("Colors",
@@ -51,9 +51,6 @@ namespace BoostColors
                 "configSecondaryColor",
                 BoostColor.LightBlue,
                 "Secondary boost color");
-
-            //configPrimaryColor.SettingChanged += (sender, args) => { SetVFXColors(configPrimaryColor.Value, configSecondaryColor.Value); };
-            //configSecondaryColor.SettingChanged += (sender, args) => { SetVFXColors(configPrimaryColor.Value, configSecondaryColor.Value); };
         }
 
         public void FindVFX()
