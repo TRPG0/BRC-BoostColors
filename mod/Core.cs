@@ -14,11 +14,12 @@ namespace BoostColors
     {
         public const string PluginGUID = "trpg.brc.boostcolors";
         public const string PluginName = "BoostColors";
-        public const string PluginVersion = "1.0.2";
+        public const string PluginVersion = "1.1.0";
 
         public static Core Instance;
         public static new ManualLogSource Logger = BepInEx.Logging.Logger.CreateLogSource("BoostColors");
 
+        public static ConfigEntry<bool> configSetUIColors;
         public static ConfigEntry<BoostColor> configPrimaryColor;
         public static ConfigEntry<BoostColor> configSecondaryColor;
 
@@ -41,6 +42,11 @@ namespace BoostColors
             Harmony.PatchAll(typeof(BaseModule_HandleStageFullyLoaded_Patch));
             Harmony.PatchAll(typeof(Player_SetCharacter_Patch));
             Harmony.PatchAll(typeof(Core_OnApplicationFocus_Patch));
+
+            configSetUIColors = Config.Bind("Colors",
+                "configSetUIColors",
+                true,
+                "Set text and combo bar colors");
 
             configPrimaryColor = Config.Bind("Colors",
                 "configPrimaryColor",
@@ -87,20 +93,22 @@ namespace BoostColors
             frictionSecondaryEffect2.material.SetTexture("_MainTex", Assets.effectTex);
         }
 
-        public void SetVFXColors(BoostColor primary, BoostColor secondary)
+        public void SetColors(BoostColor primary, BoostColor secondary)
         {
             if (!Reptile.Core.Instance.BaseModule.IsPlayingInStage)
             {
-                Logger.LogWarning("Can't set VFX colors because player is not currently in stage.");
+                Logger.LogWarning("Can't set colors because player is not currently in stage.");
                 return;
             }
             else if (frictionSecondaryEffect2 == null)
             {
-                Logger.LogWarning("Not all VFX components were found.");
+                Logger.LogWarning("Not all components were found.");
                 return;
             }
 
             Logger.LogInfo($"Setting colors ({primary}, {secondary})");
+            SetUIColor(primary);
+            SetComboColors(primary, secondary);
             SetBarPrimaryColor(primary);
             SetBarSecondaryColor(secondary);
             SetBoostPrimaryColor(primary);
@@ -108,6 +116,34 @@ namespace BoostColors
             SetBoostTrailColor(primary);
             SetFrictionPrimaryColor(primary);
             SetFrictionSecondaryColor(secondary);
+        }
+
+        public void SetUIColor(BoostColor color)
+        {
+            if (ui == null)
+            {
+                Logger.LogWarning("Can't set UI colors because GameplayUI is null!");
+                return;
+            }
+
+            ui.scoreCalcLabel.faceColor = Assets.GetTextFaceColor(color);
+            ui.scoreCalcLabel.outlineColor = Assets.GetTextOutlineColor(color);
+            ui.targetScoreLabel.faceColor = Assets.GetTextFaceColor(color);
+            ui.targetScoreLabel.outlineColor = Assets.GetTextOutlineColor(color);
+            ui.totalScoreLabel.faceColor = Assets.GetTextFaceColor(color);
+            ui.totalScoreLabel.outlineColor = Assets.GetTextOutlineColor(color);
+        }
+
+        public void SetComboColors(BoostColor primary, BoostColor secondary)
+        {
+            if (ui == null)
+            {
+                Logger.LogWarning("Can't set UI colors because GameplayUI is null!");
+                return;
+            }
+
+            ui.comboTimeOutBar.sprite = Assets.GetComboFillSprite(primary);
+            ui.comboTimeOutBackdrop.sprite = Assets.GetComboBGSprite(secondary);
         }
 
         public void SetBarPrimaryColor(BoostColor color)
@@ -190,10 +226,7 @@ namespace BoostColors
         }
 
         // only made this for use in UnityExplorer because it can't comprehend the swirls (neither can I)
-        public Material GetImageMaterial(Image image)
-        {
-            return image.material;
-        }
+        public Material GetImageMaterial(Image image) => image.material;
     }
 
     public enum BoostColor
@@ -201,10 +234,18 @@ namespace BoostColors
         Red,
         Orange,
         Yellow,
+        Lime,
         Green,
+        Teal,
         LightBlue,
         Blue,
+        DarkBlue,
         Purple,
-        Pink
+        Indigo,
+        Magenta,
+        Pink,
+        White,
+        Gray,
+        Black
     }
 }

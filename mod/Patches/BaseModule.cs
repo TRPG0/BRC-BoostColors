@@ -10,7 +10,7 @@ namespace BoostColors.Patches
         {
             Core.Instance.FindVFX();
             Core.Instance.SetTextures();
-            Core.Instance.SetVFXColors(Core.configPrimaryColor.Value, Core.configSecondaryColor.Value);
+            Core.Instance.SetColors(Core.configPrimaryColor.Value, Core.configSecondaryColor.Value);
             Core.Instance.ui.SetTrickingChargeBarActive(false);
         }
     }

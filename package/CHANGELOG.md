@@ -1,3 +1,8 @@
+## 1.1.0
+
+- Added 8 new colors.
+- UI colors are now also affected.
+
 ## 1.0.2
 
 - Fixed crashing when loading a new stage (oops)

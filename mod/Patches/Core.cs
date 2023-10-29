@@ -11,7 +11,12 @@ namespace BoostColors.Patches
             if (focus)
             {
                 Core.Instance.Config.Reload();
-                Core.Instance.SetVFXColors(Core.configPrimaryColor.Value, Core.configSecondaryColor.Value);
+                if (Reptile.Core.Instance.BaseModule.IsPlayingInStage)
+                {
+                    Core.Instance.SetColors(Core.configPrimaryColor.Value, Core.configSecondaryColor.Value);
+                    if (WorldHandler.instance.GetCurrentPlayer().IsComboing()) Core.Instance.ui.SetTrickingChargeBarActive(true);
+                    else Core.Instance.ui.SetTrickingChargeBarActive(false);
+                }
             }
         }
     }
